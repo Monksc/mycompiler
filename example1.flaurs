@@ -1,0 +1,14 @@
+
+class Int {
+
+    Int() {
+
+    }
+}
+
+class String {
+
+    String() {
+
+    }
+}

@@ -1,0 +1,46 @@
+
+class Int {
+
+    Int() {
+#mov       rax, [rsp + 16]
+#mov       rbx, [rsp + 8]
+#mov       [rax], rbx
+    }
+}
+
+print() {
+#mov       rax, [rsp + 8]
+#mov       rcx, 0
+#.loop:
+#mov       rbx, 10
+#xor       rdx, rdx              ; zero rdx
+#div       rbx
+#add       rdx, 48               ; Turn into ASCI code
+#push      rdx                   ; push last digit to stack
+#inc       rcx                   ; rcx represents the digits on stack
+#mov       rbx, 1
+#cmp       rax, rbx
+#jg        .loop                 ; checks if rax is 0
+#push      rcx
+#mov       rax, 8
+#mul       rcx
+#mov       rcx, rax
+#mov       rax, 0x02000004         ; system call for write
+#mov       rdi, 1                  ; file handle 1 is stdout
+#mov       rsi, rsp
+#add       rsi, 4
+#mov       rdx, rcx                ; number of bytes
+#syscall
+#pop       rcx
+#.popem:
+#dec       rcx
+#pop       rax
+#mov       rbx, 0
+#cmp       rcx, rbx
+#jg        .popem
+}
+
+main() {
+    Int foo(42)
+    print(foo)
+}
